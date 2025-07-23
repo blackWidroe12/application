@@ -1,0 +1,317 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #e9ecef;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.top-bar {
+  height: 56px;
+  background: linear-gradient(90deg, #1a237e 0%, #1976d2 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 100;
+  position: relative;
+}
+
+.top-bar .logo {
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 1.4rem;
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.main-content {
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;
+  height: calc(100vh - 56px);
+  background: #e9ecef;
+}
+
+.control-panel {
+  width: 340px;
+  max-width: 30vw;
+  min-width: 220px;
+  background: rgba(255,255,255,0.85);
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 2px 0 16px rgba(0,0,0,0.08);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s, background 0.4s;
+  overflow-y: auto;
+  backdrop-filter: blur(12px) saturate(1.5);
+  animation: fadeInLeft 0.7s;
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px);}
+  to { opacity: 1; transform: translateX(0);}
+}
+
+.control-panel.collapsed {
+  width: 56px;
+  min-width: 56px;
+  overflow: hidden;
+}
+
+.map-panel {
+  flex: 1 1 0;
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(120deg, #dbeafe 0%, #f0f4ff 100%);
+  overflow: hidden;
+}
+
+.map-container {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 24px;
+  box-shadow: 0 8px 48px rgba(30, 64, 175, 0.18);
+  overflow: hidden;
+  margin: 2rem 2rem 2rem 0;
+  background: #fff;
+  position: relative;
+  transition: box-shadow 0.3s;
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98);}
+  to { opacity: 1; transform: scale(1);}
+}
+
+.floating-controls {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.floating-controls.advanced {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  pointer-events: none;
+}
+
+.floating-controls button,
+.floating-controls .leaflet-control {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.floating-controls button:hover {
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.15);
+}
+
+.fab {
+  pointer-events: auto;
+  background: rgba(255,255,255,0.92);
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+  border: none;
+  width: 56px;
+  height: 56px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s, background 0.2s;
+  outline: none;
+  margin-bottom: 0.2rem;
+  backdrop-filter: blur(8px) saturate(1.2);
+}
+
+.fab:hover {
+  background: #1976d2;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.25);
+}
+
+.notification-area {
+  position: absolute;
+  bottom: 32px;
+  right: 40px;
+  min-width: 240px;
+  max-width: 400px;
+  z-index: 1100;
+  background: rgba(255,255,255,0.95);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(30, 64, 175, 0.13);
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  color: #222;
+  display: none; /* Show when needed */
+}
+
+.type-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.type-card {
+  display: flex;
+  align-items: center;
+  background: #e3f2fd;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+  border: 1px solid #bbdefb;
+}
+
+.type-card.active {
+  background: #1976d2;
+  color: #fff;
+  border-color: #1976d2;
+  font-weight: 600;
+}
+
+.type-icon {
+  margin-right: 6px;
+  font-size: 1.2em;
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f5f7fa;
+}
+
+.panel-tabs {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f5f7fa;
+}
+
+.panel-tabs button {
+  flex: 1;
+  padding: 0.5rem 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.panel-tabs button.active {
+  border-bottom: 2px solid #1976d2;
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.panel-content {
+  padding: 1.25rem;
+}
+
+.auth-loading {
+  padding: 2rem;
+  text-align: center;
+  color: #1976d2;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .control-panel {
+    width: 80vw;
+    min-width: 0;
+    max-width: 100vw;
+    position: absolute;
+    z-index: 1001;
+    left: 0;
+    top: 56px;
+    height: calc(100vh - 56px);
+    box-shadow: 2px 0 16px rgba(0,0,0,0.12);
+  }
+  .main-content {
+    flex-direction: column;
+  }
+  .map-panel {
+    margin: 0;
+  }
+  .map-container {
+    margin: 0;
+    border-radius: 0;
+  }
+  .floating-controls.advanced, .notification-area {
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+  }
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.map-panel {
+  flex: 1;
+  position: relative;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+}

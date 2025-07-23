@@ -1,0 +1,5 @@
+The custom postgresql.conf and pg_hba.conf files are no longer used. You can safely delete the following files/directories:
+- postgresql.conf/postgresql.conf
+- pg_hba.conf
+
+Your Docker Compose now uses the default PostgreSQL configuration and should run without config errors.

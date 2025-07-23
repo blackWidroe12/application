@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgis/postgis:13-3.1
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 15s
+      retries: 5
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=brandon
+      - POSTGRES_HOST_AUTH_METHOD=trust  
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      - POSTGRES_HOST=db
+      - DJANGO_SETTINGS_MODULE=config.settings.settings
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

@@ -1,0 +1,11 @@
+
+
+Django==4.2.7  # or whatever version you need
+psycopg2-binary
+djangorestframework
+gunicorn
+Pillow
+djangorestframework-gis  # or latest version
+django-cors-headers>=4.0.0
+django-filter>=23.2.0  # for filtering support
+django-extensions>=3.2.0  # for additional management
